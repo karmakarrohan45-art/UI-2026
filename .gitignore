@@ -1,0 +1,38 @@
+# Dependencies and build output
+node_modules/
+dist/
+.next/
+appname/node_modules/
+appname/dist/
+auto-editor/node_modules/
+auto-editor/.next/
+
+# User uploads generated at runtime by the editor
+**/auto-editor/public/uploads/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables and local deployment configuration
+.env
+.env.*
+!.env.example
+appname/.env
+appname/backend/.env
+.vercel/
+appname/.vercel/
+
+# Python caches and local databases
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
+instance/
+
+# Editor and OS files
+.kilo/
+.vscode/
+.DS_Store
+Thumbs.db

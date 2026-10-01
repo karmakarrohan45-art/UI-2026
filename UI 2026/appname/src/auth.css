@@ -1,0 +1,261 @@
+/* Authentication Components Styles */
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-box h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 600;
+}
+
+.login-box p {
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.google-login-wrapper {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+}
+
+.divider span {
+  padding: 0 15px;
+  color: #999;
+  font-size: 14px;
+}
+
+.email-login {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.email-login input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.email-login input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.email-login button {
+  padding: 12px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.email-login button:hover:not(:disabled) {
+  background-color: #5568d3;
+  transform: translateY(-2px);
+}
+
+.email-login button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.signup-link {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 20px;
+}
+
+.signup-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.signup-link a:hover {
+  color: #5568d3;
+  text-decoration: underline;
+}
+
+.unauthorized {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+  background: #f5f5f5;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.user-profile .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-profile div h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-profile div p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* App Header Styles */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle:hover {
+  background-color: #f5f5f5;
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+}
+
+[data-theme="dark"] .login-box {
+  background: #2d2d2d;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .login-box h1,
+[data-theme="dark"] .login-box p {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .email-login input {
+  background: #3a3a3a;
+  border-color: #444;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .email-login input:focus {
+  border-color: #667eea;
+}

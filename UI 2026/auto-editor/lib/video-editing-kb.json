@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "chunks": [
+    {
+      "id": "planner-contract",
+      "title": "Edit planner contract",
+      "content": "The edit planner returns trimSeconds, speed, mute, filters, and labels. Filters must be valid ffmpeg syntax and safe to execute. Combine independent filters in the filters array. If a request is ambiguous, choose a conservative interpretation and describe it in labels.",
+      "tags": ["planner", "json", "ffmpeg", "safety"]
+    },
+    {
+      "id": "color-grading",
+      "title": "Color grading reference",
+      "content": "Cinematic: eq=contrast=1.18:saturation=1.05,vignette. Moody: eq=brightness=-0.06:contrast=1.15:saturation=0.85. Vibrant: eq=saturation=1.4:contrast=1.1. Warm: colorbalance=rs=0.12:gs=0.04:bs=-0.1. Cool: colorbalance=rs=-0.1:bs=0.12. Black and white: hue=s=0. Sepia: hue=s=0.4,colorbalance=rs=0.15:gs=0.05:bs=-0.15. Teal and orange: colorbalance=rs=0.1:gs=-0.05:bs=-0.1,eq=contrast=1.1.",
+      "tags": ["color", "grade", "lut", "cinematic", "moody", "warm", "cool", "teal", "orange"]
+    },
+    {
+      "id": "speed-and-time",
+      "title": "Speed and time reference",
+      "content": "Slow motion at half speed uses setpts=2*PTS and atempo=0.5. Two-times speed uses setpts=0.5*PTS and atempo=2.0. Trim the beginning of a clip with -t seconds or a trim filter. Keep audio tempo aligned when changing speed. Reverse video with reverse filter. Freeze frame with t=freeze.",
+      "tags": ["speed", "slow motion", "fast", "time", "trim", "reverse", "freeze"]
+    },
+    {
+      "id": "aspect-ratio",
+      "title": "Aspect ratio and framing",
+      "content": "Vertical 9:16 uses crop=ih*9/16:ih. Horizontal 16:9 uses crop=ih*16/9:ih. Square uses crop=ih:ih. Zoom in with scale=iw*1.15:-1,crop=iw/1.15:ih/1.15. Zoom out can use scale=iw*0.9:-1,pad=iw*1.11:ih*1.11:(ow-iw)/2:(oh-ih)/2. Letterbox with pad=ih*16/9:ih:(ow-iw)/2:0:black.",
+      "tags": ["aspect ratio", "crop", "vertical", "9:16", "zoom", "framing", "letterbox"]
+    },
+    {
+      "id": "audio",
+      "title": "Audio reference",
+      "content": "Mute audio with -an. Normalize dialogue or music with loudnorm=I=-16:TP=-1.5:LRA=11. Increase volume with volume=1.5. Fade audio with afade=t=in:st=0:d=1,afade=t=out:st=duration-1:d=1. Remove silence only when the user asks for pause cleanup. Highpass filter for voice clarity: highpass=f=80. Lowpass for music: lowpass=f=8000.",
+      "tags": ["audio", "mute", "normalize", "volume", "silence", "highpass", "lowpass"]
+    },
+    {
+      "id": "transitions",
+      "title": "Transitions and polish",
+      "content": "A simple fade in and out uses fade=t=in:st=0:d=0.8,fade=t=out:st=2:d=0.8. Soft dreamy footage can use gblur=sigma=0.6,eq=saturation=1.05. Sharpen details with unsharp=5:5:0.7. Vintage film can use curves=vintage,noise=alls=8:allf=t. Glitch effect: rgbashift, noise. Chromatic aberration: lenscorrection.",
+      "tags": ["fade", "transition", "soft", "sharp", "vintage", "glitch", "chromatic"]
+    },
+    {
+      "id": "common-workflows",
+      "title": "Common edit workflows",
+      "content": "Reels and TikTok usually benefit from 9:16 framing, vibrant color, and faster pacing. A cinematic cut usually uses letterboxing or a widescreen crop, restrained grading, and slower motion. A clean vlog keeps natural color, removes dead air, and uses steady pacing. A tutorial benefits from zooms on actions and clear audio. Podcast clips need captions, silence removal, and audio normalization.",
+      "tags": ["reels", "tiktok", "vlog", "tutorial", "workflow", "podcast"]
+    },
+    {
+      "id": "prompt-examples",
+      "title": "Prompt interpretation examples",
+      "content": "Make it cinematic with a slow fade in means a cinematic grade plus fade filters. Black and white, moody, trim to 10 seconds means hue=s=0, a moody grade, and a 10 second trim. Vibrant and punchy, speed it up 2x means higher saturation and contrast plus two-times speed. Vintage VHS look, muted audio means vintage filters and mute. Add animated captions means transcribe audio and burn word-by-word subtitles. Karaoke style captions means highlight each word as spoken. Remove pauses and add captions means auto-cut silence then transcribe.",
+      "tags": ["examples", "prompt", "instructions", "captions", "transcription"]
+    },
+    {
+      "id": "transcription-whisper",
+      "title": "Transcription with Whisper",
+      "content": "Use OpenAI Whisper API for accurate speech-to-text. Supports 99+ languages. Returns segments with timestamps (start, end, text). Use verbose_json response format for word-level timestamps. Audio must be extracted first: ffmpeg -i input.mp4 -vn -acodec libmp3lame -ar 16000 -ac 1 audio.mp3. Maximum file size 25MB for direct API upload, longer files need chunking.",
+      "tags": ["transcription", "whisper", "speech-to-text", "audio", "timestamps"]
+    },
+    {
+      "id": "caption-styles",
+      "title": "Animated caption styles",
+      "content": "Default: Standard subtitles at bottom center. Karaoke: Each word highlights in sync with audio (yellow fill effect). Word-by-word: Single word appears at a time, centered. TikTok: Large bold font, yellow highlight, bounce animation, bottom safe zone. Cinematic: Elegant serif font, gold accent, subtle fade. Minimal: Clean sans-serif, no outline, lower third. All styles use ASS format for advanced positioning and effects.",
+      "tags": ["captions", "subtitles", "animated", "karaoke", "tiktok", "word-by-word", "cinematic", "minimal", "ASS"]
+    },
+    {
+      "id": "caption-burning",
+      "title": "Burning captions into video",
+      "content": "Use ffmpeg subtitles filter to burn ASS/SRT into video: -vf \"subtitles=caption.ass:force_style='Fontsize=52,Outline=3,Shadow=2'\". For karaoke highlighting, ASS format with {\\k} tags for each word. Word-by-word uses {\\t} transform tags. Position with Alignment: 2=bottom center, 8=top center. MarginV for vertical offset. Use libx264 veryfast preset for speed.",
+      "tags": ["burn", "captions", "ffmpeg", "subtitles", "ASS", "hardcode", "render"]
+    },
+    {
+      "id": "srt-ass-format",
+      "title": "SRT and ASS subtitle formats",
+      "content": "SRT: Simple format with index, timestamp range, text. Example: 1\\n00:00:01,000 --> 00:00:04,000\\nHello world\\n. ASS: Advanced format with styles, positioning, karaoke tags. Supports {\\k100} for karaoke timing (100 = 1 second in centiseconds). {\\t} for transformations. {\\pos(x,y)} for positioning. {\\fad(in,out)} for fade. Use ASS for animated captions, SRT for simple subtitles.",
+      "tags": ["SRT", "ASS", "subtitle", "format", "karaoke", "tags", "timing"]
+    },
+    {
+      "id": "video-editing-best-practices",
+      "title": "Video editing best practices",
+      "content": "Always normalize audio with loudnorm=I=-16:TP=-1.5:LRA=11 for consistent levels. Keep crf 20-23 for quality/size balance. Use -movflags +faststart for web streaming. Preserve original audio when possible. For vertical videos, blur background: gblur=sigma=20, crop=ih*9/16:ih, overlay. Add safe zones for captions: keep text within 80% width, 85% height from bottom. Test on mobile before publishing.",
+      "tags": ["best practices", "audio", "crf", "faststart", "vertical", "safe zone", "mobile"]
+    }
+  ]
+}

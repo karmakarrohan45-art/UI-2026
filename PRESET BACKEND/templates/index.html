@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Razorpay Payment</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body>
+
+    <h1>Razorpay Payment</h1>
+
+    <h2>Product: Premium Course</h2>
+
+    <h3>Price: ₹299</h3>
+
+    <button onclick="payNow()">
+        Pay ₹299
+    </button>
+
+
+    <script>
+
+        async function payNow() {
+
+            try {
+
+                // Create order on Python backend
+                const response = await fetch("/create-order", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        amount: 299
+                    })
+
+                });
+
+
+                const order = await response.json();
+
+
+                // Razorpay Checkout options
+                const options = {
+
+                    key: order.key_id,
+
+                    amount: order.amount,
+
+                    currency: order.currency,
+
+                    name: "PRESET",
+
+                    description: "Premium Course",
+
+                    order_id: order.order_id,
+
+
+                    handler: async function (payment) {
+
+                        // Send payment details to backend
+                        const verifyResponse = await fetch(
+                            "/verify-payment",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    razorpay_order_id:
+                                        payment.razorpay_order_id,
+
+                                    razorpay_payment_id:
+                                        payment.razorpay_payment_id,
+
+                                    razorpay_signature:
+                                        payment.razorpay_signature
+
+                                })
+
+                            }
+                        );
+
+
+                        const result =
+                            await verifyResponse.json();
+
+
+                        if (result.success) {
+
+                            alert(
+                                "Payment successful!"
+                            );
+
+                        } else {
+
+                            alert(
+                                "Payment verification failed!"
+                            );
+
+                        }
+
+                    }
+
+                };
+
+
+                const razorpay =
+                    new Razorpay(options);
+
+
+                razorpay.open();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Something went wrong!"
+                );
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

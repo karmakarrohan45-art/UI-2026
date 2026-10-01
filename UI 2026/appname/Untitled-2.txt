@@ -1,0 +1,9 @@
+API error from mistral (model: mistral-vibe-cli-latest): LLM backend error [mistral]
+  status: 400 Bad Request
+  reason: Bad Request
+  request_id: N/A
+  endpoint: https://api.mistral.ai
+  model: mistral-vibe-cli-latest
+  provider_message: Total number of images exceeds the maximum allowed of 8.
+  body_excerpt: {"object":"error","message":"Total number of images exceeds the maximum allowed of 8.","type":"invalid_request_invalid_args","param":null,"code":"3051","raw_status_code":400}
+  payload_summary: {"model":"mistral-vibe-cli-latest","message_count":143,"approx_chars":330032,"temperature":1.0,"has_tools":true,"tool_choice":"auto"}

@@ -1,0 +1,17 @@
+{
+  "name": "gene-auto-editor",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\"",
+    "dev": "npm run clean && next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001"
+  },
+  "dependencies": {
+    "next": "^14.2.5",
+    "openai": "^7.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

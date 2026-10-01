@@ -1,0 +1,20 @@
+# Dependencies and build output
+node_modules/
+dist/
+appname/node_modules/
+appname/dist/
+
+# Environment variables and local deployment configuration
+.env
+.env.*
+!.env.example
+appname/.env
+appname/backend/.env
+.vercel/
+appname/.vercel/
+
+# Python caches and local databases
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.db
