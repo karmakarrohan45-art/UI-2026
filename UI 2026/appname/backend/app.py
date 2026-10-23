@@ -8,6 +8,7 @@ from urllib.request import Request as UrlRequest, urlopen
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 if __package__:
     from .models import db
     from .auth_routes import register_auth_routes
@@ -48,6 +49,17 @@ app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-change-this')
 
 # Register auth routes
 register_auth_routes(app)
+
+# Global JSON error handler — always return JSON, never HTML, so the
+# frontend can reliably parse error responses.
+@app.errorhandler(HTTPException)
+def handle_http_exception(error):
+    return jsonify({"success": False, "message": error.description}), error.code
+
+@app.errorhandler(Exception)
+def handle_unhandled_exception(error):
+    print(f'Unhandled error: {type(error).__name__}: {error}')
+    return jsonify({"success": False, "message": "An internal error occurred."}), 500
 
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_1234567890')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'demo_secret')

@@ -3,5 +3,11 @@
   "framework": "vite",
   "installCommand": "npm install && npm --prefix appname install",
   "buildCommand": "npm run build",
-  "outputDirectory": "appname/dist"
+  "outputDirectory": "appname/dist",
+  "functions": {
+    "api/support-chat.js": {
+      "runtime": "nodejs22.x",
+      "maxDuration": 30
+    }
+  }
 }

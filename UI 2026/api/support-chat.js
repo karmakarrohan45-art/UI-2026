@@ -139,6 +139,7 @@ const buildKnowledgeDocuments = (presets) => {
 }
 
 const knowledgeDocuments = buildKnowledgeDocuments(PRESETS)
+const knowledgeTokens = knowledgeDocuments.map((doc) => tokenize(doc.content + ' ' + doc.title))
 
 const TOP_K = 4
 const MIN_SCORE = 0.08
@@ -172,11 +173,11 @@ const snippetFor = (content, query) => {
   return prefix + windowStr.trim() + suffix
 }
 
-const searchKnowledge = (query, documents) => {
+const searchKnowledge = (query, documents, precomputedTokens) => {
   const queryTokens = tokenize(query)
   if (!queryTokens.length) return []
 
-  const docTokens = documents.map((doc) => tokenize(doc.content + ' ' + doc.title))
+  const docTokens = precomputedTokens || documents.map((doc) => tokenize(doc.content + ' ' + doc.title))
   const docLengths = docTokens.map((t) => t.length)
 
   const totalDocs = documents.length
@@ -302,7 +303,7 @@ module.exports = async (req, res) => {
   }
 
   const query = messages[messages.length - 1].content
-  const retrieved = searchKnowledge(query, knowledgeDocuments)
+  const retrieved = searchKnowledge(query, knowledgeDocuments, knowledgeTokens)
   const context = retrieved.length ? formatRetrievedContext(retrieved) : ''
 
   const systemPrompt = context
@@ -323,6 +324,7 @@ module.exports = async (req, res) => {
         max_tokens: 800,
         temperature: 0.4,
       }),
+      signal: AbortSignal.timeout(25000),
     })
 
     if (!groqResponse.ok) {
@@ -357,12 +359,17 @@ module.exports = async (req, res) => {
       },
     })
   } catch (error) {
+    if (error.name === 'AbortError') {
+      return res.status(504).json({
+        message: 'The Groq support service timed out. Please try again shortly.',
+      })
+    }
     if (error.name === 'TypeError' && /fetch|network/i.test(error.message)) {
       return res.status(502).json({
         message: 'The Groq support service is temporarily unavailable. Please try again shortly.',
       })
     }
     console.error('Support chat error:', error)
-    return res.status(500).json({ message: 'The edit bot ran into a problem.' })
+    return res.status(500).json({ message: 'The support service ran into a problem. Please try again shortly.' })
   }
 }

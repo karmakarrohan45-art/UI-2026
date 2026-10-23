@@ -129,7 +129,14 @@ function SupportChat({ onClose }) {
           messages: conversation.map((item) => ({ role: item.from === 'bot' ? 'assistant' : 'user', content: item.text }))
         })
       })
-      const data = await response.json()
+
+      let data
+      try {
+        data = await response.json()
+      } catch {
+        throw new Error('The support service returned an unexpected response. Please try again shortly.')
+      }
+
       if (!response.ok) throw new Error(data.message || 'The support assistant is unavailable right now.')
       const botMessage = isHelpRequest && !data.message.includes('6289821372') ? data.message + '\n\nNeed immediate help? Call or message us at: 6289821372' : data.message
       setMessages((current) => [...current, { from: 'bot', text: botMessage }])
@@ -137,8 +144,11 @@ function SupportChat({ onClose }) {
       // A network failure means the Flask API is not running, which is a setup
       // problem rather than a support problem, so say so plainly.
       const isNetworkError = error instanceof TypeError || /failed to fetch|networkerror|load failed/i.test(String(error?.message || ''))
+      const isJsonParseError = error instanceof SyntaxError || /not valid json/i.test(String(error?.message || ''))
       const errorMsg = isNetworkError
         ? 'The support service is offline. Start it with "npm run dev" from the project root (this starts the storefront, editor and API together).'
+        : isJsonParseError
+        ? 'The support service returned an unexpected response. Please try again shortly.'
         : (error.message || 'The support assistant is unavailable right now. Please try again later.')
       const botMessage = isHelpRequest && !errorMsg.includes('6289821372') ? errorMsg + '\n\nNeed immediate help? Call or message us at: 6289821372' : errorMsg
       setMessages((current) => [...current, { from: 'bot', text: botMessage }])
