@@ -6,7 +6,6 @@
   "outputDirectory": "appname/dist",
   "functions": {
     "api/support-chat.js": {
-      "runtime": "nodejs22.x",
       "maxDuration": 30
     }
   }
